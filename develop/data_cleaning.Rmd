@@ -1,0 +1,110 @@
+---
+title: "College Data EDA"
+author: "Junxiong Liu"
+date: '`r format(Sys.time(), "%B %d, %Y")`'
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse=TRUE, prompt=TRUE, eval=TRUE, message=F, include=T,comment=NULL,fig.width = 5, warnings = FALSE, fig.height = 3,tidy.opts=list(width.cutoff=50),tidy=TRUE)
+```
+
+```{r packageCheck, include=FALSE}
+mypacks <- c("ggplot2","stringr","dplyr","knitr","formattable","xlsx","boot","readr")  # what packages are needed?
+packs <- installed.packages()   # find installed package list
+install.me <- mypacks[!(mypacks %in% packs[,"Package"])]  #what needs to be installed?
+if (length(install.me) >= 1) install.packages(install.me, repos = "http://cran.us.r-project.org")   # install (if needed)
+lapply(mypacks, library, character.only=TRUE)  # load all packages
+```
+
+# Read Data
+```{r}
+# scorecard <- read_csv("../../Data/college-scorecard/scorecard.csv")
+data_2013 <- read_csv("../../Data/college-scorecard/MERGED2013_PP.csv")
+data_2012 <- read_csv("../../Data/college-scorecard/MERGED2012_PP.csv")
+data_2011 <- read_csv("../../Data/college-scorecard/MERGED2011_PP.csv")
+```
+
+# Data cleaning
+```{r}
+# Change all NULLs to NAS
+data_2011[data_2011 == "NULL"|data_2011 == "PrivacySuppressed"] <- NA
+data_2012[data_2012 == "NULL"|data_2012 == "PrivacySuppressed"] <- NA
+data_2013[data_2013 == "NULL"|data_2013 == "PrivacySuppressed"] <- NA
+
+# first filter out colleges that are not operating
+data_2011_0 <- data_2011 %>% filter(CURROPER == 1)
+data_2012_0 <- data_2012 %>% filter(CURROPER == 1)
+data_2013_0 <- data_2013 %>% filter(CURROPER == 1)
+
+# For each df, only keep columns with <95% entries as NA
+data_2011_1 <- data_2011_0 %>% 
+  select(which(colMeans(is.na(.)) < 0.95))
+data_2012_1 <- data_2012_0 %>% 
+  select(which(colMeans(is.na(.)) < 0.95))
+data_2013_1 <- data_2013_0 %>% 
+  select(which(colMeans(is.na(.)) < 0.95))
+
+# for cross check the column names, only select those that have names in all three df
+data_2011_2 <- data_2011_1[, (which(names(data_2011_1) %in% names(data_2012_1)))]
+data_2011_2 <- data_2011_2[, (which(names(data_2011_2) %in% names(data_2013_1)))]
+data_2012_2 <- data_2012_1[, which(names(data_2012_1) %in% names(data_2011_1))]
+data_2012_2 <- data_2012_2[, which(names(data_2012_2) %in% names(data_2013_1))]
+data_2013_2 <- data_2013_1[, which(names(data_2013_1) %in% names(data_2012_2))]
+
+# manually select columns not needed (manual selection)
+cols_not_needed <- c("PCTPELL","CDR3","APPL_SCH_PCT_GE2","APPL_SCH_N")
+
+data_2011_3 <- data_2011_2 %>% select(-c(PCTPELL,CDR3,APPL_SCH_PCT_GE2,APPL_SCH_N,CURROPER))
+data_2012_3 <- data_2012_2 %>% select(-c(PCTPELL,CDR3,APPL_SCH_PCT_GE2,APPL_SCH_N,CURROPER))
+data_2013_3 <- data_2013_2 %>% select(-c(PCTPELL,CDR3,APPL_SCH_PCT_GE2,APPL_SCH_N,CURROPER))
+```
+
+# Some EDA before proceeding
+```{r}
+# for 2013, number of schools operating in each state (top 10 for numbers)
+data_2013_3 %>% 
+  group_by(STABBR) %>%
+  summarise(num_open_schools=n()) %>%
+  arrange(desc(num_open_schools)) %>%
+  slice(1:10)
+
+# for 2013, sort by school's admission rate (eliminate those with adm rate = 0)
+adm_rate_2013 <- 
+  data_2013_3 %>% 
+  select(INSTNM,ADM_RATE) %>%
+  filter(ADM_RATE != 0) %>%
+  arrange(as.numeric(ADM_RATE)) %>%
+  slice(1:15)
+
+# for 2013, sort by school with highest SAT score (eliminate those with adm rate = 0)
+highest_SAT_2013 <- data_2013_3 %>% 
+  select(INSTNM,SAT_AVG,SAT_AVG_ALL) %>%
+  arrange(desc(as.numeric(SAT_AVG))) %>% slice(1:15)
+
+highest_SAT_2013 %>% 
+  ggplot(aes(x=INSTNM,y=SAT_AVG)) + geom_point() +
+  xlab("College Name") + ylab("Average SAT Scores") +
+  ggtitle("SAT Scores of the most competitive 15 colleges") + 
+  theme(axis.text.x = element_text(angle = 270))
+
+
+# highest degree awarded (0: non-degree; 1: certificate; 2: associate; 3: bachelor's degree; 4: Graduate)
+highest_degree_awarded <- data_2013_3 %>% 
+  select(INSTNM,HIGHDEG) %>%
+  group_by(HIGHDEG) %>%
+  summarise(num_inst = n()) %>%
+  ungroup() %>%
+  mutate(type = c("1.Non-degree","2.Certificate","3.Associate","4.Bachelor","5.Graduate")) %>%
+  select(type,num_inst)
+
+highest_degree_awarded 
+
+highest_degree_awarded %>% 
+  ggplot(aes(x=type,y=num_inst, group = 1)) + geom_point() + geom_line() +
+  xlab("Types of degrees") + ylab("Number of institutions") +
+  ggtitle("Count for types of degrees for currently operating institutions")
+```
+
