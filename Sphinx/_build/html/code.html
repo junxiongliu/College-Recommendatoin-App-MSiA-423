@@ -1,0 +1,149 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Functions for the model &#8212; College Enrollment Recommendation 1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to College Enrollment Recommendation’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-model">
+<span id="functions-for-the-model"></span><h1>Functions for the model<a class="headerlink" href="#module-model" title="Permalink to this headline">¶</a></h1>
+<p>This is the main modeling file for the college recommendation system.</p>
+<p>Author: Junxiong Liu</p>
+<dl class="function">
+<dt id="model.filter">
+<code class="descclassname">model.</code><code class="descname">filter</code><span class="sig-paren">(</span><em>df</em>, <em>strict_criteria</em><span class="sig-paren">)</span><a class="headerlink" href="#model.filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Criteria for initial filtering based on user input</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>param1 (array[4]): Criteria for initial filtering; input of array of length 4: [preferred region,preferred degree, preferred school type, preferred school size range]</dd>
+<dt>Returns:</dt>
+<dd>df: the filtered dataframe</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="model.main">
+<code class="descclassname">model.</code><code class="descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#model.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main Function</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="model.modeling">
+<code class="descclassname">model.</code><code class="descname">modeling</code><span class="sig-paren">(</span><em>df</em>, <em>clustering_info</em><span class="sig-paren">)</span><a class="headerlink" href="#model.modeling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function for clustering</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>param1 (array[2]): Criteria for clustering input of array of length 2: [SAT scores, preferrd majors]</dd>
+<dt>Returns:</dt>
+<dd>array[5]: five recommended colleges to apply to</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="model.read">
+<code class="descclassname">model.</code><code class="descname">read</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="headerlink" href="#model.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read data</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>param1 (str): data path</dd>
+<dt>Returns:</dt>
+<dd>df: the readed dataframe</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-flask_page"></span></div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">College Enrollment Recommendation</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Functions for the model</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to College Enrollment Recommendation’s documentation!</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Junxiong Liu.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/code.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

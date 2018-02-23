@@ -19,7 +19,9 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('.'))
+
+sys.path.insert(0, os.path.abspath('F:/personal/AcademicsWork/Northwestern/2018 Winter/MSiA 423 Analytics Value Chain/Project/Workspace/app'))
+sys.path.insert(0, os.path.abspath('F:/personal/AcademicsWork/Northwestern/2018 Winter/MSiA 423 Analytics Value Chain/Project/Workspace/develop/modeling'))
 
 
 # -- General configuration ------------------------------------------------
