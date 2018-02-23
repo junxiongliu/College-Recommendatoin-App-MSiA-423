@@ -10,7 +10,7 @@ Welcome to College Enrollment Recommendation's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   tutorial
+   code
 
 Indices and tables
 ==================
