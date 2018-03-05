@@ -15,6 +15,10 @@ from sklearn.preprocessing import StandardScaler
 import os
 import psycopg2
 
+sys.path.insert(0, '../..')
+from app import application, db
+from app.db_models import college
+
 def read(path):
     """Read data (csv format)
 
@@ -41,14 +45,13 @@ def read_sql(query,con):
 
     """
 
-    conn = psycopg2.connect(host=con[0], dbname=con[1], port=con[2], user=con[3], password=con[4])
-    df = pd.read_sql(query, con=conn)
+    # conn = psycopg2.connect(host=con[0], dbname=con[1], port=con[2], user=con[3], password=con[4])
+    # df = pd.read_sql(query, con=conn)
 
-    # uri = SQLALCHEMY_DATABASE_URI
-    # engine = sqlalchemy.engine.create_engine(uri)
-    # connection = engine.connect()
-
-    df.to_sql('table_name_to_create', con=connection)
+    uri = SQLALCHEMY_DATABASE_URI
+    engine = sqlalchemy.engine.create_engine(uri)
+    connection = engine.connect()
+    df = pd.read_sql(query, con=connection)
 
     return df
 
