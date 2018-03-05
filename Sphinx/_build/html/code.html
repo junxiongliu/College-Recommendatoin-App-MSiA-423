@@ -39,8 +39,48 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="functions-for-the-model">
-<h1>Functions for the model<a class="headerlink" href="#functions-for-the-model" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-application">
+<span id="functions-for-the-model"></span><h1>Functions for the model<a class="headerlink" href="#module-application" title="Permalink to this headline">¶</a></h1>
+<p>This is the flas application page for the college recommendation system.</p>
+<p>Author: Junxiong Liu</p>
+<dl class="function">
+<dt id="application.home_page">
+<code class="descclassname">application.</code><code class="descname">home_page</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.home_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Home page of the webapp</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>Null</dd>
+<dt>Returns:</dt>
+<dd>flask-obj: rendered html page</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="application.recommendation_page">
+<code class="descclassname">application.</code><code class="descname">recommendation_page</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.recommendation_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recommendation page of webapp</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>Null</dd>
+<dt>Returns:</dt>
+<dd>flask-obj: rendered html page</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-create_collegedb"></span><p>This is the database creation file for the college recommendation system. Most likely, you will not need this as the database has been created.</p>
+<p>Author: Junxiong Liu</p>
+<dl class="function">
+<dt id="create_collegedb.create_db">
+<code class="descclassname">create_collegedb.</code><code class="descname">create_db</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#create_collegedb.create_db" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the database and table using defined db_models in SQLAlchemy. configuration parameter in __init__.py with the schema defined by models.college()</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>Null</dd>
+<dt>Returns:</dt>
+<dd>Null</dd>
+</dl>
+</dd></dl>
+
 <span class="target" id="module-model"></span><p>This is the main modeling file for the college recommendation system.</p>
 <p>Author: Junxiong Liu</p>
 <dl class="function">
@@ -108,14 +148,6 @@ param2 (string): uri containing connection details passed from application.py</d
 <dt>Returns:</dt>
 <dd>df: the corresponding dataframe</dd>
 </dl>
-</dd></dl>
-
-<span class="target" id="module-db_models"></span><p>This is the database cdefinition file for the college recommendation system.</p>
-<p>Author: Junxiong Liu</p>
-<dl class="class">
-<dt id="db_models.college">
-<em class="property">class </em><code class="descclassname">db_models.</code><code class="descname">college</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#db_models.college" title="Permalink to this definition">¶</a></dt>
-<dd><p>Define the data model for the database to be setup for the app</p>
 </dd></dl>
 
 </div>
