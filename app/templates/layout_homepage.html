@@ -3,17 +3,17 @@
 
 <script type="text/javascript">
     function selectAll() {
-        var items = document.getElementsByName('acs');
+        var items = document.getElementsByName("pr");
         for (var i = 0; i < items.length; i++) {
-            if (items[i].type == 'checkbox')
+            if (items[i].type == "checkbox")
                 items[i].checked = true;
         }
     }
 
     function UnSelectAll() {
-        var items = document.getElementsByName('acs');
+        var items = document.getElementsByName("pr");
         for (var i = 0; i < items.length; i++) {
-            if (items[i].type == 'checkbox')
+            if (items[i].type == "checkbox")
                 items[i].checked = false;
         }
     }
@@ -45,6 +45,7 @@
 		align-items: center;
 		justify-content: center;
 		display: flex;
+		font-size: 18px;
 		font-weight: bold;
 	}
 	
@@ -71,82 +72,81 @@
 
 <body>
 	<div class="overlay">
-		<div>
-			<h1>College Recommendation System</h1>
-			<p align="justify">Welcome! This is a undergraduate colleges matching system written by Junxiong Liu. This system utilizes K-means clustereing algorithm to help you decide which U.S. colleges you
-			should apply to.</p>
-			<h2>To get it started, please enter your information below:</h2>
-		</div>
+		<form action="/recommendation" method="post">
+			<div>
+				<h1>College Recommendation System</h1>
+				<p align="justify">Welcome! This is a undergraduate colleges matching system written by Junxiong Liu. This system utilizes K-means clustereing algorithm to help you decide which U.S. colleges you
+				should apply to.</p>
+				<h2>To get it started, please enter your information below:</h2>
+			</div>
+			<div>
+					<h4>1. What is your preferred region (select all that apply)</h4>
+					<div class="box">
+						<input type="checkbox" name="pr" id="r1" value=1>New England (CT, ME,MA, NH, RI, VT)<br>
+						<input type="checkbox" name="pr" id="r2" value=2>Mid East (DE, DC, MD, NJ, NY, PA)<br>
+						<input type="checkbox" name="pr" id="r3" value=3>Great Lakes (IL, IN, MI, OH, WI)<br>
+						<input type="checkbox" name="pr" id="r4" value=4>Plains (IA, KS, MN, MO, NE, ND, SD)<br>
+						<input type="checkbox" name="pr" id="r5" value=5>Southeast (AL, AR, FL, GA, KY, LA, MS, NC, SC, TN, VA, WV)<br>
+						<input type="checkbox" name="pr" id="r6" value=6>Southwest (AZ, NM, OK, TX)<br>
+						<input type="checkbox" name="pr" id="r7" value=7>Rocky Mountains (CO, ID,MT, UT, WY)<br>
+						<input type="checkbox" name="pr" id="r8" value=8>Far West (AK, CA, HI, NV, OR, WA)<br>
+						<input type="checkbox" name="pr" id="r9" value=9>Outlying Areas (AS, FM, GU, MH, MP, PR, PW, VI)<br>
+						<p>
+							<input type="button" onclick='selectAll()' value="Select All"/>
+							<input type="button" onclick='UnSelectAll()' value="Unselect All"/>
+						</p>
+					</div>
 
-		<div>
-			<h4>1. What is your preferred region (select all that apply)</h4>
-			<div class="box">
-				<input type="checkbox" name="acs" id="r1">New England (CT, ME,MA, NH, RI, VT)<br>
-				<input type="checkbox" name="acs" id="r2">Mid East (DE, DC, MD, NJ, NY, PA)<br>
-				<input type="checkbox" name="acs" id="r3">Great Lakes (IL, IN, MI, OH, WI)<br>
-				<input type="checkbox" name="acs" id="r4">Plains (IA, KS, MN, MO, NE, ND, SD)<br>
-				<input type="checkbox" name="acs" id="r5">Southeast (AL, AR, FL, GA, KY, LA, MS, NC, SC, TN, VA, WV)<br>
-				<input type="checkbox" name="acs" id="r6">Southwest (AZ, NM, OK, TX)<br>
-				<input type="checkbox" name="acs" id="r7">Rocky Mountains (CO, ID,MT, UT, WY)<br>
-				<input type="checkbox" name="acs" id="r8">Far West (AK, CA, HI, NV, OR, WA)<br>
-				<input type="checkbox" name="acs" id="r9">Outlying Areas (AS, FM, GU, MH, MP, PR, PW, VI)<br>
-				<p>
-					<input type="button" onclick='selectAll()' value="Select All"/>
-					<input type="button" onclick='UnSelectAll()' value="Unselect All"/>
-				</p>
+				<h4>2. What is your preferred degree type? (select all that apply)</h4>
+				<div class="box">
+					<input type="checkbox" name="pd" id="dt1" value=1>Certificate or Other<br>
+					<input type="checkbox" name="pd" id="dt2" value=2>Associate<br>
+					<input type="checkbox" name="pd" id="dt3" value=3>Bachelor<br>
+				</div>
+
+				<h4>3. What is your preferred school type? (select all that apply)</h4>
+				<div class="box">
+					<input type="checkbox" name="pst" id="st1" value=1>Public<br>
+					<input type="checkbox" name="pst" id="st2" value=2>Private<br>
+				</div>
+
+				<h4>4. What is your preferred school size? (enter a range of non-negative numbers)</h4>
+				<div class="box">
+					<input type="number" name="psz" id="sz1" value=0>-<input type="number" name="psz" id="sz2" value=90000>
+				</div>
+
+				<h4>5. What are your SAT scores? (enter a range of 200-800; leave the fields 0 if you have not taken SAT)</h4>
+				<div class="box">
+						SAT Verbal: <input type="number" name="SAT" id="SATVR" value=0><br>
+						SAT Math: <input type="number" name="SAT" id="SATMT" value=0>
+				</div>		
+
+				<h4>6. What are your desired major areas? (Rank 1(Highest) - 8(Lowest))</h4>
+				<div class="box">
+					Arts and Humanities: <input type="number" name="pmajor" id="dm1"><br>
+					Businss: <input type="number" name="pmajor" id="dm2"><br>
+					Health and Medicine: <input type="number" name="pmajor" id="dm3"><br>
+					Multi-/Interdisciplinary Studies: <input type="number" name="pmajor" id="dm4"><br>
+					Public and Social Services: <input type="number" name="pmajor" id="dm5"><br>
+					Science, Math, and Technology: <input type="number" name="pmajor" id="dm6"><br>
+					Social Sciences: <input type="number" name="pmajor" id="dm7"><br>
+					Trades and Personal Services: <input type="number" name="pmajor" id="dm8"><br>
+				<a href="https://bigfuture.collegeboard.org/majors-careers" target="_blank"> <p><b> Click here for details about major areas </b></a></p>	
+				</div>				
 			</div>
 
-			<h4>2. What is your preferred degree type? (select all that apply)</h4>
-			<div class="box">
-				<input type="checkbox" id="dt1">Certificate or Other<br>
-				<input type="checkbox" id="dt2">Associate<br>
-				<input type="checkbox" id="dt3">Bachelor<br>
+			<br>
+
+			<div>
+				<img src="https://nebula.wsimg.com/a13be8e610a589b7e39d3968e80f58da?AccessKeyId=2F07CEE4B74C3D1760D8&disposition=0&alloworigin=1" width="720" height="315" alt="college"></img>
 			</div>
 
-			<h4>3. What is your preferred school type? (select all that apply)</h4>
-			<div class="box">
-				<input type="checkbox" id="st1">Public<br>
-				<input type="checkbox" id="st2">Private<br>
+			<br>
+		
+			<div class="button_wrapper">
+					<button class="button" name="recommend" id="recommend" >Get Recommendations!</button>
 			</div>
-
-			<h4>4. What is your preferred school size? (enter a range of non-negative numbers)</h4>
-			<div class="box">
-				<input type="number" id="sz1" value=0>-<input type="number" id="sz2" value=90000>
-			</div>
-
-			<h4>5. What are your SAT scores? (enter a range of 200-800; leave it blank if you have not taken SAT)</h4>
-			<div class="box">
-				SAT Verbal: <input type="number" id="SATVR"><br>
-				SAT Math: <input type="number" id="SATMT">
-			</div>		
-
-			<h4>6. What are your desired major areas? (Rank 1(Highest) - 8(Lowest))</h4>
-			<div class="box">
-				Arts and Humanities: <input type="number" id="dm1"><br>
-				Businss: <input type="number" id="dm2"><br>
-				Health and Medicine: <input type="number" id="dm3"><br>
-				Multi-/Interdisciplinary Studies: <input type="number" id="dm4"><br>
-				Public and Social Services: <input type="number" id="dm5"><br>
-				Science, Math, and Technology: <input type="number" id="dm6"><br>
-				Social Sciences: <input type="number" id="dm7"><br>
-				Trades and Personal Services: <input type="number" id="dm8"><br>
-			<a href="https://bigfuture.collegeboard.org/majors-careers" target="_blank"> <p><b> Click here for details about major areas </b></a></p>	
-			</div>				
-		</div>
-
-		<br>
-
-		<div>
-			<img src="https://nebula.wsimg.com/a13be8e610a589b7e39d3968e80f58da?AccessKeyId=2F07CEE4B74C3D1760D8&disposition=0&alloworigin=1" width="720" height="315" alt="college"></img>
-		</div>
-
-		<br>
-
-		<div class="button_wrapper">
-			<div class="button">
-				<span id="recommend">Get Recommendations!</span>
-			</div>
-		</div>
+		</form>
 
 		<br><br>
 
