@@ -26,8 +26,8 @@ def home_page():
 
     """
 
-	if request.method == 'GET':
-		return render_template('layout_homepage.html')
+    if request.method == 'GET':
+    	return render_template('layout_homepage.html')
 
 #	elif request.method == 'POST':
 #		return render_template('layout_homepage.html') 
@@ -62,7 +62,7 @@ def recommendation_page():
 	result = modeling.modeling(df_filtered,clustering_info)
 
 	# BELOW are code specific for output
-	
+
 	# insert an empty column just for output
 	num_rows = len(result.index)
 	inserted_vals = ['']*num_rows
