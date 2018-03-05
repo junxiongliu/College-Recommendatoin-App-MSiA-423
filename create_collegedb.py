@@ -1,10 +1,25 @@
+"""
+
+This is the database creation file for the college recommendation system. Most likely, you will not need this as the database has been created.
+
+Author: Junxiong Liu
+
+"""
+
 from app import db
 from app.db_models import college
 import pandas as pd
 
-# Creates a table in the database provided as the 'SQLALCHEMY_DATABASE_URI'
-# configuration parameter in __init__.py with the schema defined by models.college()
 def create_db():
+    """Create the database and table using defined db_models in SQLAlchemy. configuration parameter in __init__.py with the schema defined by models.college()
+
+    Args:
+        Null
+
+    Returns:
+        Null
+
+    """
 
 	# initialize db
 	db.create_all()
@@ -16,6 +31,7 @@ def create_db():
 	# change to None to add to db
 	df = df.where((pd.notnull(df)), None)
 
+	# add to db
 	for index,row in df.iterrows():
 		cur_college = college(INSTNM=row['INSTNM'], CITY=row['CITY'], state=row['state'], degree_offered=row['degree_offered'],CONTROL=row['CONTROL'],region=row['region'],
 			ADM_RATE=row['ADM_RATE'], SATVRMID=row['SATVRMID'], SATMTMID=row['SATMTMID'], num_undergrad=row['num_undergrad'], prop_arts_human=row['prop_arts_human'],prop_business=row['prop_business'],

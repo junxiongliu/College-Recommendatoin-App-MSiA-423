@@ -1,7 +1,18 @@
+"""
+
+This is the database cdefinition file for the college recommendation system.
+
+Author: Junxiong Liu
+
+"""
+
 from app import db
 
-# Create a data model for the database to be setup for the app
 class college(db.Model):
+    """Define the data model for the database to be setup for the app 
+    
+    """
+
     id = db.Column(db.Integer, primary_key=True)
     INSTNM = db.Column(db.String(100), unique=False, nullable=False)
     CITY = db.Column(db.String(100), unique=False, nullable=True)

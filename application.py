@@ -1,14 +1,31 @@
+"""
+
+This is the flas application page for the college recommendation system.
+
+Author: Junxiong Liu
+
+"""
+
 from flask import Flask, flash, redirect, render_template, request, session, abort
 import sys
 import os
 from app import application, db
 from app.db_models import college
-
 sys.path.insert(0, 'develop/modeling')
 import model as modeling
  
 @application.route("/home",methods=['GET','POST'])
 def home_page():
+    """Home page of the webapp
+
+    Args:
+        Null
+
+    Returns:
+        flask-obj: rendered html page
+
+    """
+
 	if request.method == 'GET':
 		return render_template('layout_homepage.html')
 
@@ -17,6 +34,16 @@ def home_page():
 
 @application.route("/recommendation",methods=['GET','POST'])
 def recommendation_page():
+    """Recommendation page of the webapp
+
+    Args:
+        Null
+
+    Returns:
+        flask-obj: rendered html page
+
+    """
+
 	# get the usesr input
 	p_region = list(map(int, request.form.getlist('pr')))
 	p_degree = list(map(int, request.form.getlist('pd')))
@@ -27,11 +54,6 @@ def recommendation_page():
 	strict_criteria = [p_region, p_degree, p_schoolsize, p_schooltype]
 	clustering_info = [SAT, p_major]
 
-	# now do the recommendation model
-	# old method without rds
-	# path = 'develop/data/data_2013.csv' #select * from db
-	# df = modeling.read(path)
-
 	# new method with rds
 	statement = 'SELECT * FROM college'
 	uri = application.config['SQLALCHEMY_DATABASE_URI']
@@ -40,6 +62,7 @@ def recommendation_page():
 	result = modeling.modeling(df_filtered,clustering_info)
 
 	# BELOW are code specific for output
+	
 	# insert an empty column just for output
 	num_rows = len(result.index)
 	inserted_vals = ['']*num_rows
