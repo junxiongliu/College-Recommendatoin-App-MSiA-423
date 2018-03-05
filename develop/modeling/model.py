@@ -13,11 +13,12 @@ import random
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 import os
+# import sys
 import psycopg2
 
-sys.path.insert(0, '../..')
-from app import application, db
-from app.db_models import college
+# sys.path.insert(0, '../..')
+# from app import application, db
+# from app.db_models import college
 
 def read(path):
     """Read data (csv format)
@@ -33,12 +34,12 @@ def read(path):
     df = pd.read_csv(path,encoding='ISO-8859-1')
     return df
 
-def read_sql(query,con):
+def read_sql(query,uri):
     """Read data (db returned format, array of string of arrays)
 
     Args:
         param1 (string): sql statement
-        param2 (string): connection details
+        param2 (string): uri containing connection details
 
     Returns:
         df: the corresponding dataframe
@@ -48,7 +49,6 @@ def read_sql(query,con):
     # conn = psycopg2.connect(host=con[0], dbname=con[1], port=con[2], user=con[3], password=con[4])
     # df = pd.read_sql(query, con=conn)
 
-    uri = SQLALCHEMY_DATABASE_URI
     engine = sqlalchemy.engine.create_engine(uri)
     connection = engine.connect()
     df = pd.read_sql(query, con=connection)

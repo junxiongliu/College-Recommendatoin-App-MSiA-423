@@ -33,14 +33,8 @@ def recommendation_page():
 	# df = modeling.read(path)
 
 	# new method with rds
-	statement = 'SELECT * FROM college'
-	host='msiawebapp.cg96n7rbldvk.us-east-1.rds.amazonaws.com'
-	dbname='msiawebappdb'
-	port=5432
-	user='collegeconnect'
-	password='collegeahead'
-	connection = [host,dbname,port,user,password]
-	df = modeling.read_sql(statement,connection)
+	uri = application.config['SQLALCHEMY_DATABASE_URI']
+	df = modeling.read_sql(statement,uri)
 	df_filtered = modeling.filter(df,strict_criteria)
 	result = modeling.modeling(df_filtered,clustering_info)
 
