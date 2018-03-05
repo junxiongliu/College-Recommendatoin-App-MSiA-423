@@ -44,7 +44,7 @@ def recommendation_page():
 
     """
 
-	# get the usesr input
+	# get the user input
 	p_region = list(map(int, request.form.getlist('pr')))
 	p_degree = list(map(int, request.form.getlist('pd')))
 	p_schooltype = list(map(int, request.form.getlist('pst')))
@@ -54,7 +54,7 @@ def recommendation_page():
 	strict_criteria = [p_region, p_degree, p_schoolsize, p_schooltype]
 	clustering_info = [SAT, p_major]
 
-	# new method with rds
+	# connect AWS RDS
 	statement = 'SELECT * FROM college'
 	uri = application.config['SQLALCHEMY_DATABASE_URI']
 	df = modeling.read_sql(statement,uri)
