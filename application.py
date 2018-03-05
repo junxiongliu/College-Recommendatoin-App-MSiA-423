@@ -33,6 +33,7 @@ def recommendation_page():
 	# df = modeling.read(path)
 
 	# new method with rds
+	statement = 'SELECT * FROM college'
 	uri = application.config['SQLALCHEMY_DATABASE_URI']
 	df = modeling.read_sql(statement,uri)
 	df_filtered = modeling.filter(df,strict_criteria)
