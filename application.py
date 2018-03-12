@@ -15,9 +15,6 @@ sys.path.insert(0, 'develop/modeling')
 import model as modeling
 import logging
 
-# logging
-logging.basicConfig(filename='application.log', level=logging.DEBUG)
-logger = logging.getLogger(__name__) 
 
 @application.route("/home",methods=['GET','POST'])
 def home_page():
@@ -30,7 +27,7 @@ def home_page():
         flask-obj: rendered html page
         
     """
-    
+
     logger.info('Going to main page.')
     return render_template('layout_homepage.html')
 
@@ -112,4 +109,7 @@ def recommendation_page():
         return render_template('layout_homepage.html', message = msg)
 
 if __name__ == "__main__":
+    # logger initialization
+    logging.basicConfig(filename='application.log', level=logging.DEBUG)
+    logger = logging.getLogger(__name__) 
     application.run(host = '0.0.0.0', use_reloader=True, debug=True)
