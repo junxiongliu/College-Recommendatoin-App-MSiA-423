@@ -20,9 +20,6 @@
 		
 </script>
 
-
-
-
 <style>
 	body {
 		padding-top: 10px;
@@ -75,16 +72,26 @@
 
 </style>
 
-
 </head><body><header>
-
 
 <body>
 	<div class="overlay">
-		<h1>Top Recommendations</h1>
-		{{data | safe}}
+		<form action="/home" method="post">
+			<div>
+				<h1>Top Recommendations</h1>
+				{{data | safe}}
 
-		Note: All statistics is based on information from 2013.
+				Note: All statistics is based on information from 2013.
+			</div>
+
+			<br>
+			
+			<div class="button_wrapper">
+					<button class="button" name="back" id="back" >Try again!</button>
+			</div>
+		</form>
+
+		<br><br>
 	</div>
 
 </header></body></html>

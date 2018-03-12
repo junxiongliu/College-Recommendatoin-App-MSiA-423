@@ -20,7 +20,6 @@
 		
 </script>
 
-
 <style>
 	body {
 		padding-top: 10px;
@@ -64,15 +63,27 @@
  		border-color: grey
  	}
 
+ 	.errormessage{
+		color: red;
+		font-size: 14px;
+	}
+
 </style>
 
-
 </head><body><header>
-
 
 <body>
 	<div class="overlay">
 		<form action="/recommendation" method="post">
+			<div class="errormessage">
+				{{message}}
+			</div>
+			<div>
+				<h1>College Recommendation System</h1>
+				<p align="justify">Welcome! This is a undergraduate colleges matching system written by Junxiong Liu. This system utilizes K-means clustereing algorithm to help you decide which U.S. colleges you
+				should apply to.</p>
+				<h2>To get it started, please enter your information below:</h2>
+			</div>
 			<div>
 				<h1>College Recommendation System</h1>
 				<p align="justify">Welcome! This is a undergraduate colleges matching system written by Junxiong Liu. This system utilizes K-means clustereing algorithm to help you decide which U.S. colleges you
