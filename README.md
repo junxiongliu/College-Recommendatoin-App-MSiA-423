@@ -1,17 +1,17 @@
 # College Recommendation Flask App
 
 ## Objective 
-This repo can be used to produce a U.S. college recommendation web app. The app is based on Python 3.
+This repo can be used to produce a U.S. college recommendation web app. The app is written with Python 3.
 
 ## Data
 The data is downloaded from [Kaggle](https://www.kaggle.com/jpico6/predicting-college-graduation/data). The cleaned format is stored in `develop/data/data_2013.csv`.
 
 ## Pivotal Tracker
-[Link for Pivotal Tracker](https://www.pivotaltracker.com/n/projects/2144165)
+[Link to Pivotal Tracker](https://www.pivotaltracker.com/n/projects/2144165)
 
 ## Package requirements
-* [conda](https://anaconda.org/) Either Anaconda or Miniconda is fine for this project.
-* [git](https://git-scm.com/) You will most likely need version control.
+* [conda](https://anaconda.org/): Either Anaconda or Miniconda is fine for this project.
+* [git](https://git-scm.com/): You will most likely need version control.
 
 ## Steps to set up
 Below is a brief tutorial to set up the conda environment in a AWS EC2 or Linux. For other systems, the general steps are same, but small changes might be needed. 
