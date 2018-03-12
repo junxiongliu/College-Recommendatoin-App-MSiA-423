@@ -1,6 +1,6 @@
 """
 
-This is the flas application page for the college recommendation system.
+This is the flask application page for the college recommendation system.
 
 Author: Junxiong Liu
 
@@ -13,7 +13,13 @@ from app import application, db
 from app.db_models import college
 sys.path.insert(0, 'develop/modeling')
 import model as modeling
- 
+import logging
+
+# logging
+logging.basicConfig(filename='application.log', level=logging.DEBUG)
+logger = logging.getLogger(__name__) 
+
+
 @application.route("/home",methods=['GET','POST'])
 def home_page():
     """Home page of the webapp
@@ -26,6 +32,7 @@ def home_page():
         
     """
     if request.method == 'GET':
+    	logger.info('Going to main page.')
     	return render_template('layout_homepage.html')
 
 #	elif request.method == 'POST':
@@ -42,6 +49,8 @@ def recommendation_page():
         flask-obj: rendered html page
 
     """
+
+    logger.info('Got user input.')
 
     # get the user input
     p_region = list(map(int, request.form.getlist('pr')))
