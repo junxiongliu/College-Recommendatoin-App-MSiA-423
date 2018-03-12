@@ -50,6 +50,7 @@ def recommendation_page():
 
     """
 
+    # logging
     logger.info('Got user input.')
 
     # get the user input
@@ -95,9 +96,14 @@ def recommendation_page():
 	# transpose to output
     result_output = result_output.set_index('Name').T
 
-    if request.method == 'POST':
-    	return render_template('layout_predictionpage.html',data=result_output.to_html())
-
+    try:
+	    if request.method == 'POST':
+	    	logger.info('Prediction generated.')
+	    	return render_template('layout_predictionpage.html',data=result_output.to_html())
+	except:
+		logger.warning('Unexpected User Inputs resulting in unable to load prediction page. Refreshing main page.')
+	    return render_template('layout_homepage.html')
+	    
 	# if request.method == 'GET':
 	# 	print ("hi")
 	# return render_template('layout_predictionpage.html',**locals())
