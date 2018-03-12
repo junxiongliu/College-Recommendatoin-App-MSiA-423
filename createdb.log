@@ -1,0 +1,4 @@
+INFO:__main__:Database initialization successful.
+INFO:__main__:CSV successfully read in.
+INFO:__main__:CSV successfully added to RDS.
+INFO:__main__:Database successfully commited.

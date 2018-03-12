@@ -1,0 +1,35 @@
+INFO:werkzeug: * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 833-032-680
+INFO:__main__:Going to main page.
+INFO:werkzeug:165.124.145.247 - - [12/Mar/2018 06:49:04] "POST /home HTTP/1.1" 200 -
+WARNING:__main__:Missing or Invalid user inputs resulting in failure to fit the model.
+INFO:werkzeug:165.124.145.247 - - [12/Mar/2018 06:49:07] "POST /recommendation HTTP/1.1" 200 -
+INFO:__main__:Got user input.
+INFO:__main__:Recommendation successfully generated.
+INFO:werkzeug:165.124.145.247 - - [12/Mar/2018 06:49:22] "POST /recommendation HTTP/1.1" 200 -
+INFO:__main__:Going to main page.
+INFO:werkzeug:165.124.145.247 - - [12/Mar/2018 06:49:31] "POST /home HTTP/1.1" 200 -
+INFO:__main__:Got user input.
+INFO:__main__:Recommendation successfully generated.
+INFO:werkzeug:165.124.145.247 - - [12/Mar/2018 06:49:52] "POST /recommendation HTTP/1.1" 200 -
+INFO:__main__:Going to main page.
+INFO:werkzeug:165.124.145.247 - - [12/Mar/2018 06:49:56] "POST /home HTTP/1.1" 200 -
+INFO:__main__:Got user input.
+WARNING:__main__:Unexpected errors in generating the recommendation page.
+INFO:werkzeug:165.124.145.247 - - [12/Mar/2018 06:50:10] "POST /recommendation HTTP/1.1" 200 -
+INFO:__main__:Got user input.
+INFO:__main__:Recommendation successfully generated.
+INFO:werkzeug:165.124.145.247 - - [12/Mar/2018 06:50:40] "POST /recommendation HTTP/1.1" 200 -
+INFO:__main__:Going to main page.
+INFO:werkzeug:165.124.145.247 - - [12/Mar/2018 06:50:43] "POST /home HTTP/1.1" 200 -
+WARNING:__main__:Missing or Invalid user inputs resulting in failure to fit the model.
+INFO:werkzeug:165.124.145.247 - - [12/Mar/2018 06:51:01] "POST /recommendation HTTP/1.1" 200 -
+INFO:__main__:Got user input.
+INFO:__main__:Recommendation successfully generated.
+INFO:werkzeug:165.124.145.247 - - [12/Mar/2018 06:51:24] "POST /recommendation HTTP/1.1" 200 -
+INFO:__main__:Going to main page.
+INFO:werkzeug:165.124.145.247 - - [12/Mar/2018 06:51:33] "POST /home HTTP/1.1" 200 -
+WARNING:__main__:Missing or Invalid user inputs resulting in failure to fit the model.
+INFO:werkzeug:165.124.145.247 - - [12/Mar/2018 06:51:39] "POST /recommendation HTTP/1.1" 200 -
