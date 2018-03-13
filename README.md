@@ -58,4 +58,7 @@ There are two sets of logging performed.
 2. `createdb.log` stores the logs of database initialization.
 
 ## Unit Testing
-More to come!
+We performed unit testing for the `develop/modeling/model.py` file. The `model.py` functions we tested are
+* `filter()`
+* `modeling()`
+* `major_pref_transformation()`
