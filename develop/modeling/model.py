@@ -14,6 +14,7 @@ from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 import os
 import sqlalchemy
+import math
 
 def read(path):
     """Read data (csv format)
@@ -78,8 +79,11 @@ def modeling(df,clustering_info):
     output_cols = ['INSTNM','CITY','state','ADM_RATE','SATVRMID','SATMTMID','num_undergrad','prop_arts_human','prop_business','prop_health_med','prop_interdiscip',
                     'prop_public_svce','prop_sci_math_tech','prop_social_sci','prop_trades_personal_svce']
     
-    # fit a model (just 12 clusters)
-    num_clusters = 12
+    # fit a model (if df long big enough, use 12 clusters)
+    if len(df.index) >= 12*5:
+        num_clusters = 12
+    else:
+        num_clusters = math.ceil(len(df.index)/5)
     km = KMeans(n_clusters = num_clusters,random_state=666)
 
     if clustering_info[0][0] != 0 and clustering_info[0][1] != 0: # have SAT scores
