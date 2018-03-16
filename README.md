@@ -46,6 +46,8 @@ Below is a brief tutorial to set up the conda environment in a AWS EC2 or Linux.
 
 Note: The conda package requirements are also listed in the `requirements.txt` file.
 
+Then, activate the conda environment by `source activate collegeapp`.
+
 4. In the same directory as `collegeapp.yml`, create a file called `config` and paste the following information into the file to configure your database.
 
     `SECRET_KEY = 'development_key'
