@@ -1,0 +1,226 @@
+---
+title: "College App Data Exploration & Cleaning"
+author: "Junxiong Liu"
+date: '`r format(Sys.time(), "%B %d, %Y")`'
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse=TRUE, prompt=TRUE, eval=TRUE, message=F, include=T,comment=NULL,fig.width = 5, warnings = FALSE, fig.height = 3,tidy.opts=list(width.cutoff=50),tidy=TRUE)
+```
+
+```{r packageCheck, include=FALSE}
+mypacks <- c("ggplot2","stringr","dplyr","knitr","formattable","xlsx","boot","readr")  # what packages are needed?
+packs <- installed.packages()   # find installed package list
+install.me <- mypacks[!(mypacks %in% packs[,"Package"])]  #what needs to be installed?
+if (length(install.me) >= 1) install.packages(install.me, repos = "http://cran.us.r-project.org")   # install (if needed)
+lapply(mypacks, library, character.only=TRUE)  # load all packages
+```
+
+# Read raw Data
+```{r}
+data_2013 <- read_csv("../../Data/college-scorecard/MERGED2013_PP.csv")
+data_2012 <- read_csv("../../Data/college-scorecard/MERGED2012_PP.csv")
+data_2011 <- read_csv("../../Data/college-scorecard/MERGED2011_PP.csv")
+```
+
+# Data cleaning
+```{r}
+# Change all NULLs to NAS
+data_2011[data_2011 == "NULL"|data_2011 == "PrivacySuppressed"] <- NA
+data_2012[data_2012 == "NULL"|data_2012 == "PrivacySuppressed"] <- NA
+data_2013[data_2013 == "NULL"|data_2013 == "PrivacySuppressed"] <- NA
+
+# first filter out colleges that are not operating
+data_2011_0 <- data_2011 %>% filter(CURROPER == 1)
+data_2012_0 <- data_2012 %>% filter(CURROPER == 1)
+data_2013_0 <- data_2013 %>% filter(CURROPER == 1)
+
+# For each df, only keep columns with <95% entries as NA
+data_2011_1 <- data_2011_0 %>% 
+  select(which(colMeans(is.na(.)) < 0.95))
+data_2012_1 <- data_2012_0 %>% 
+  select(which(colMeans(is.na(.)) < 0.95))
+data_2013_1 <- data_2013_0 %>% 
+  select(which(colMeans(is.na(.)) < 0.95))
+
+# for cross check the column names, only select those that have names in all three df
+data_2011_2 <- data_2011_1[, (which(names(data_2011_1) %in% names(data_2012_1)))]
+data_2011_2 <- data_2011_2[, (which(names(data_2011_2) %in% names(data_2013_1)))]
+data_2012_2 <- data_2012_1[, which(names(data_2012_1) %in% names(data_2011_1))]
+data_2012_2 <- data_2012_2[, which(names(data_2012_2) %in% names(data_2013_1))]
+data_2013_2 <- data_2013_1[, which(names(data_2013_1) %in% names(data_2012_2))]
+
+# manually select columns not needed (manual selection)
+cols_not_needed <- c("PCTPELL","CDR3","APPL_SCH_PCT_GE2","APPL_SCH_N")
+
+data_2011_3 <- data_2011_2 %>% select(-c(PCTPELL,CDR3,APPL_SCH_PCT_GE2,APPL_SCH_N,CURROPER))
+data_2012_3 <- data_2012_2 %>% select(-c(PCTPELL,CDR3,APPL_SCH_PCT_GE2,APPL_SCH_N,CURROPER))
+data_2013_3 <- data_2013_2 %>% select(-c(PCTPELL,CDR3,APPL_SCH_PCT_GE2,APPL_SCH_N,CURROPER))
+
+rm(data_2011,data_2012,data_2011_0,data_2012_0,
+   data_2011_1,data_2012_1,data_2011_2,
+   data_2012_2,data_2011_3,data_2012_3,data_2013_0,
+   data_2013_1,data_2013_2)
+```
+
+# Some EDA before proceeding
+```{r}
+# for 2013, number of schools operating in each state (top 10 for numbers)
+data_2013_3 %>% 
+  group_by(STABBR) %>%
+  summarise(num_open_schools=n()) %>%
+  arrange(desc(num_open_schools)) %>%
+  slice(1:10)
+
+# for 2013, sort by school's admission rate (eliminate those with adm rate = 0)
+adm_rate_2013 <- 
+  data_2013_3 %>% 
+  select(INSTNM,ADM_RATE) %>%
+  filter(ADM_RATE != 0) %>%
+  arrange(as.numeric(ADM_RATE)) %>%
+  slice(1:15)
+
+# for 2013, sort by school with highest SAT score (eliminate those with adm rate = 0)
+highest_SAT_2013 <- data_2013_3 %>% 
+  select(INSTNM,SAT_AVG,SAT_AVG_ALL) %>%
+  arrange(desc(as.numeric(SAT_AVG))) %>% slice(1:15)
+
+highest_SAT_2013 %>% 
+  ggplot(aes(x=INSTNM,y=SAT_AVG)) + geom_point() +
+  xlab("College Name") + ylab("Average SAT Scores") +
+  ggtitle("SAT Scores of the most competitive 15 colleges") + 
+  theme(axis.text.x = element_text(angle = 270))
+
+
+# highest degree awarded (0: non-degree; 1: certificate; 2: associate; 3: bachelor's degree; 4: Graduate)
+highest_degree_awarded <- data_2013_3 %>% 
+  select(INSTNM,HIGHDEG) %>%
+  group_by(HIGHDEG) %>%
+  summarise(num_inst = n()) %>%
+  ungroup() %>%
+  mutate(type = c("1.Non-degree","2.Certificate","3.Associate","4.Bachelor","5.Graduate")) %>%
+  select(type,num_inst)
+
+highest_degree_awarded 
+
+highest_degree_awarded %>% 
+  ggplot(aes(x=type,y=num_inst, group = 1)) + geom_point() + geom_line() +
+  xlab("Types of degrees") + ylab("Number of institutions") +
+  ggtitle("Count for types of degrees for currently operating institutions")
+```
+
+# Further Data Cleaning
+```{r}
+# get rid of
+# OPEID, opeid6, HCM2, st_fips, ADM_RATE_ALL,SATVR_25:SATWR_75,ACTCM25:ACTMT75
+
+# get rid of CIP... columns, NPT4_PUB,NPT4_PRIV,NPT4_048_PUB,NPT4_048_PRIV...NPT4_75UP_OTHER, AVGFACSAL,PFTFAC,D150_4,D150_L4,C200_4,C200_L4,D200_4,D200_L4,RET_FT4,RET_FTL4,RET_PT4,COMPL_RPY_3YR_RT(349):notfirstgen_rpy_3yr_RT (361), COMPL_RPY_5YR_RT(363):484
+
+data_2013_4 <- data_2013_3 %>%
+  select(-c(2:3,8,14,17,18:23,27:32,37,
+            76:265,278:295,315:316,320:321,339:340,343:346,349:361,363:484))
+```
+
+# Continue cleaning
+```{r}
+data_2013_5 <- data_2013_4 %>%
+  select(-c(5,6,7,
+            15,
+            60:68,# ugds specific info eliminated
+            70:81,
+            87,88,91,
+            92:108, # c150 specific breakdown eliminated
+            109,110,112)) 
+
+# combine columns
+data_2013_6 <- data_2013_5 %>%
+  mutate(COSTT4_A = ifelse(is.na(COSTT4_A),COSTT4_P,COSTT4_A),
+         TUITIONFEE_IN = ifelse(is.na(TUITIONFEE_IN), # Combine tuition cols
+                                TUITIONFEE_PROG,TUITIONFEE_IN),
+         TUITIONFEE_OUT = ifelse(is.na(TUITIONFEE_OUT),
+                                 TUITIONFEE_PROG,TUITIONFEE_OUT),
+         C150_4 = ifelse(is.na(C150_4),C150_L4,C150_4)) %>% # completion cols
+  select(-c(COSTT4_P,TUITIONFEE_PROG,C150_L4))
+```
+
+# Try to aggregate pcip columns
+```{r}
+data_2013_7 <- data_2013_6 %>%
+  mutate_at(c(9:53,55:62),as.numeric)
+
+new_categories <- c("arts_humanities","business","health_medicine","interdisciplinary","public_social_services","science_math_tech","social_sciences","trades_personal_services") # by https://bigfuture.collegeboard.org/majors-careers
+
+# too few, and most do not have admission rate or test scores information, filter them out
+check_dist_only <- data_2013_7 %>%
+  filter(DISTANCEONLY %in% c(1,NA)) 
+
+data_2013_8 <- data_2013_7 %>%
+  mutate(prop_arts_human = PCIP16 + PCIP23 + PCIP38 + PCIP50,
+         prop_business = PCIP52,
+         prop_health_med = PCIP51,
+         prop_interdiscip = PCIP05 + PCIP19 + PCIP24 + PCIP30 + PCIP31,
+         prop_public_svce = PCIP22 + PCIP29 + PCIP39 + PCIP43 + PCIP44,
+         prop_sci_math_tech = PCIP01 + PCIP03 + PCIP04 + PCIP10 + 
+           PCIP11 + PCIP14 + PCIP15 + PCIP26 + PCIP27 + PCIP40 + PCIP41,
+         prop_social_sci = PCIP09 + PCIP13 + PCIP25 + PCIP42 + PCIP45 + PCIP54,
+         prop_trades_personal_svce = PCIP12 + PCIP46 + PCIP47 + PCIP48 +
+           PCIP49) %>%
+  filter(DISTANCEONLY == 0) %>% # only keep schools with "physical students"
+  select(-c(1,6,16:53,54,56)) %>% #get rid of PCIP columns,UNITID,HIGHDEG,DISTONLY,PPTUGEF
+  mutate(prop_trades_personal_svce = 
+           ifelse(prop_trades_personal_svce>1, 1, prop_trades_personal_svce))
+```
+
+# Some quick Data Quality EDA Check and some further manipulation
+```{r}
+# check regions
+data_2013_8 %>% group_by(region) %>% summarise(n=n())
+
+# reassign 0 to 2
+data_2013_9 <- data_2013_8 %>% 
+  mutate(region = ifelse(region==0,2,region),
+         region = as.factor(region))
+
+# do not need graduate degree schools
+data_2013_10 <- data_2013_9 %>%
+  filter(PREDDEG != 4) %>%
+  mutate(PREDDEG = ifelse(PREDDEG==0,1,PREDDEG), # merge not classified w/ certificate
+         PREDDEG = as.factor(PREDDEG))
+
+# control merge 2 and 3 as private
+data_2013_11 <- data_2013_10 %>%
+  mutate(CONTROL = ifelse(CONTROL==3,2,CONTROL),
+         CONTROL = as.factor(CONTROL))
+```
+
+# Rename some variables and output
+```{r}
+# only select columns needed
+data_2013_12 <- data_2013_11 %>%
+  select(INSTNM,CITY,STABBR,PREDDEG,CONTROL,region,ADM_RATE,
+         SATVRMID,SATMTMID,UGDS,prop_arts_human,prop_business,
+         prop_arts_human,prop_business,prop_health_med,prop_interdiscip,
+         prop_public_svce,prop_sci_math_tech,prop_social_sci,
+         prop_trades_personal_svce)
+
+
+data_2013_out <- data_2013_12 %>%
+  rename(num_undergrad = UGDS,
+         state = STABBR,
+         degree_offered = PREDDEG)
+
+# a bit EDA
+data_2013_out %>% 
+  ggplot(aes(x=num_undergrad)) + geom_histogram(bins = 50) +
+  xlab("Enrolled undergraduate students in 2013") + 
+  ylab("Count") +
+  ggtitle("Histogram of number of enrolled undergraduate students in 2013") 
+
+
+write.csv(data_2013_out,"../../Data/data_2013.csv",row.names = FALSE)
+```
+
+

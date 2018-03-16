@@ -1,15 +1,16 @@
 # College Recommendation Flask App
 
 ## Objective 
-This repo can be used to produce a U.S. college recommendation web app. The app is written with Python 3.
+This repo can be used to produce a U.S. college recommendation web app. The data preprocessing steps are written with `R` and the app is written with `Python 3`.
 
 ## Data
-The data is downloaded from [Kaggle](https://www.kaggle.com/jpico6/predicting-college-graduation/data). The cleaned format is stored in `develop/data/data_2013.csv`.
+The data is downloaded from [Kaggle](https://www.kaggle.com/jpico6/predicting-college-graduation/data). I used `R` to do some EDA and clean the raw data, and this code is stored in `develop/data_cleaning/data_cleaning.Rmd`. Alternatively, you can download the cleaned data from my [Google Drive](https://drive.google.com/file/d/1h84q5fhv1MEo6F0YYiqhdGLX854hRmNG/view?usp=sharing). 
 
 ## Pivotal Tracker
 [Link to Pivotal Tracker](https://www.pivotaltracker.com/n/projects/2144165)
 
-## Package requirements
+## Software & Package requirements
+Below are things you need to get it started:
 * [conda](https://anaconda.org/): Either Anaconda or Miniconda is fine for this project.
 * [git](https://git-scm.com/): You will most likely need version control.
 
@@ -30,6 +31,8 @@ Below is a brief tutorial to set up the conda environment in a AWS EC2 or Linux.
 3. Go into the directory, and use the `collegeapp.yml` file to create a conda environment with all required packages and dependecies.
 
     `conda env create -f collegeapp.yml`
+
+Note: The conda package requirements are also listed in the `requirements.txt` file.
 
 4. In the same directory as `collegeapp.yml`, create a file called `config` and paste the following information into the file to configure your database.
 
@@ -58,7 +61,7 @@ There are two sets of logging performed.
 2. `createdb.log` stores the logs of database initialization.
 
 ## Unit Testing
-We performed unit testing for the `develop/modeling/model.py` file. The `model.py` functions we tested are
+We performed unit testing for the `develop/modeling/model.py` file. The `model.py` functions we tested are:
 * `filter()`
 * `modeling()`
 * `major_pref_transformation()`
