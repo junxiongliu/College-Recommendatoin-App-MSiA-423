@@ -13,7 +13,7 @@ Create a web app to help high school students and parents make well-informed dec
 
 * Vision: Help high school students and parents make well-informed decisions in the college application process
 * Mission: Create an interactive web app that is based on college information data to help applicants and their family better decide which colleges to apply for and to attend
-* Success criteria: Track new user engagement and interaction of the web app throughout the time
+* Success Criteria: Track new user engagement and interaction of the web app throughout the time
 
 ## Data
 The raw data is from [Kaggle](https://www.kaggle.com/jpico6/predicting-college-graduation/data). I used `R` to do some EDA and clean the raw data (code in `develop/data_cleaning/data_cleaning.Rmd`). Alternatively, you can download the cleaned data from my [Google Drive](https://drive.google.com/file/d/1h84q5fhv1MEo6F0YYiqhdGLX854hRmNG/view?usp=sharing). 

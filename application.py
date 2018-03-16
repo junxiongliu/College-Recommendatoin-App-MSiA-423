@@ -16,7 +16,7 @@ import model as modeling
 import logging
 
 
-@application.route("/home",methods=['GET','POST'])
+@application.route("/home", methods=['GET', 'POST'])
 def home_page():
     """Home page of the webapp
 
@@ -31,8 +31,8 @@ def home_page():
     logger.info('Going to main page.')
     return render_template('layout_homepage.html')
 
-@application.route("/recommendation",methods=['GET','POST'])
-def recommendation_page():
+@application.route("/recommendation", methods=['GET', 'POST'])
+def recommendation_page(): 
     """Recommendation page of webapp
 
     Args:
@@ -58,28 +58,28 @@ def recommendation_page():
     except:
         logger.warning('Missing or Invalid user inputs resulting in failure to fit the model.')
         msg = 'This page was just refreshed because of missing or invalid inputs. Try again below!'
-        return render_template('layout_homepage.html', message = msg)
+        return render_template('layout_homepage.html', message=msg)
 
     # connect AWS RDS
     try:
         statement = 'SELECT * FROM college'
         uri = application.config['SQLALCHEMY_DATABASE_URI']
-        df = modeling.read_sql(statement,uri)
+        df = modeling.read_sql(statement, uri)
     except:
         logger.warning('Unable to connect to AWS RDS database.')
         msg = 'This page was just refreshed because of failure to connect to AWS RDS database. Plese contact the database administer!'
-        return render_template('layout_homepage.html', message = msg)
+        return render_template('layout_homepage.html', message=msg)
 
     try:
-        df_filtered = modeling.filter(df,strict_criteria)
-        result = modeling.modeling(df_filtered,clustering_info)
+        df_filtered = modeling.filter(df, strict_criteria)
+        result = modeling.modeling(df_filtered, clustering_info)
 
         # BELOW are code specific for output
 
         # insert an empty column just for output
         num_rows = len(result.index)
         inserted_vals = ['']*num_rows
-        result.insert(loc=7, column='Proportion of majors',value=inserted_vals)
+        result.insert(loc=7, column='Proportion of majors', value=inserted_vals)
 
         # rename
         output_rename = {'INSTNM': 'Name', 'CITY': 'City', 'state': 'State', 'ADM_RATE': 'Admission rate', 'SATVRMID': 'Median SAT Verbal', 
@@ -102,11 +102,11 @@ def recommendation_page():
 
         if request.method == 'POST':
             logger.info('Recommendation successfully generated.')            
-            return render_template('layout_predictionpage.html',data=result_output.to_html())
+            return render_template('layout_predictionpage.html', data=result_output.to_html())
     except:
         logger.warning('Unexpected errors in generating the recommendation page.')
         msg = 'This page was just refreshed because of unexpected errors in generating the recommendation page. Try again below!'
-        return render_template('layout_homepage.html', message = msg)
+        return render_template('layout_homepage.html', message=msg)
 
 if __name__ == "__main__":
     # logger initialization

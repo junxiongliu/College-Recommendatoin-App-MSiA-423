@@ -27,10 +27,10 @@ def read(path):
         
     """
 
-    df = pd.read_csv(path,encoding='ISO-8859-1')
+    df = pd.read_csv(path, encoding='ISO-8859-1')
     return df
 
-def read_sql(query,uri):
+def read_sql(query, uri):
     """Read data (db returned format, array of string of arrays)
 
     Args:
@@ -48,7 +48,7 @@ def read_sql(query,uri):
 
     return df
 
-def filter(df,strict_criteria):
+def filter(df, strict_criteria):
     """Criteria for initial filtering based on user input
 
     Args:
@@ -65,7 +65,7 @@ def filter(df,strict_criteria):
     return filtered_df
 
 
-def modeling(df,clustering_info):
+def modeling(df, clustering_info):
     """Function for clustering
 
     Args:
@@ -76,21 +76,21 @@ def modeling(df,clustering_info):
 
     """
 
-    output_cols = ['INSTNM','CITY','state','ADM_RATE','SATVRMID','SATMTMID','num_undergrad','prop_arts_human','prop_business','prop_health_med','prop_interdiscip',
-                    'prop_public_svce','prop_sci_math_tech','prop_social_sci','prop_trades_personal_svce']
+    output_cols = ['INSTNM', 'CITY', 'state', 'ADM_RATE', 'SATVRMID', 'SATMTMID', 'num_undergrad', 'prop_arts_human', 'prop_business', 'prop_health_med', 'prop_interdiscip',
+                    'prop_public_svce', 'prop_sci_math_tech', 'prop_social_sci', 'prop_trades_personal_svce']
     
     # fit a model (if df long big enough, use 12 clusters)
     if len(df.index) >= 12*5:
         num_clusters = 12
     else:
         num_clusters = math.ceil(len(df.index)/5)
-    km = KMeans(n_clusters = num_clusters,random_state=666)
+    km = KMeans(n_clusters = num_clusters, random_state=666)
 
     if clustering_info[0][0] != 0 and clustering_info[0][1] != 0: # have SAT scores
-        cols = ['SATVRMID','SATMTMID','prop_arts_human','prop_business','prop_health_med','prop_interdiscip',
-                    'prop_public_svce','prop_sci_math_tech','prop_social_sci','prop_trades_personal_svce']
+        cols = ['SATVRMID', 'SATMTMID', 'prop_arts_human', 'prop_business', 'prop_health_med', 'prop_interdiscip',
+                'prop_public_svce', 'prop_sci_math_tech', 'prop_social_sci', 'prop_trades_personal_svce']
         # filter out na
-        df_SAT = df.dropna(subset = cols,axis=0)
+        df_SAT = df.dropna(subset=cols, axis=0)
         df_SAT_modeling = df_SAT[cols]
         
         # scale (standardize)
@@ -101,7 +101,7 @@ def modeling(df,clustering_info):
         
         # prediction on raw
         km.fit(df_SAT_modeling_scaled)
-        prediction=km.predict(df_SAT_modeling_scaled)
+        prediction = km.predict(df_SAT_modeling_scaled)
         df_SAT = df_SAT.assign(predicted_cluster=prediction)
         
         # transform the desired major list of new observation to between 0 and 1
@@ -114,8 +114,8 @@ def modeling(df,clustering_info):
         # append to the original and standardize
         df_SAT_modeling_appended = df_SAT_modeling.append(pd.Series(new_obs, index=df_SAT_modeling.columns, name='e'))
         new_scaled = pd.DataFrame(scaler.fit_transform(df_SAT_modeling_appended[cols]))
-        new_scaled.iloc[:, 0] = new_scaled.iloc[:, 0].apply(lambda x: x*6) # put more weight on SAT scores
-        new_scaled.iloc[:, 1] = new_scaled.iloc[:, 1].apply(lambda x: x*6)
+        new_scaled.iloc[:, 0] = new_scaled.iloc[:, 0].apply(lambda x: x * 6) # put more weight on SAT scores
+        new_scaled.iloc[:, 1] = new_scaled.iloc[:, 1].apply(lambda x: x * 6)
         
         # get the prediction
         new_obs_scaled = new_scaled.tail(1)
@@ -128,7 +128,7 @@ def modeling(df,clustering_info):
         d_new = d_all[-1]
         d = np.delete(d_all,-1)
         
-        df_SAT = df_SAT.assign(centroid_dist=d,dist_to_obs=abs(d_new-d))
+        df_SAT = df_SAT.assign(centroid_dist=d, dist_to_obs=abs(d_new-d))
         
         # get the schools
         output_cols.append('dist_to_obs')
@@ -144,15 +144,15 @@ def modeling(df,clustering_info):
         return df_SAT_output
         
     else: # no SAT scores
-        cols = ['prop_arts_human','prop_business','prop_health_med','prop_interdiscip',
-                    'prop_public_svce','prop_sci_math_tech','prop_social_sci','prop_trades_personal_svce']
+        cols = ['prop_arts_human', 'prop_business', 'prop_health_med', 'prop_interdiscip',
+                'prop_public_svce', 'prop_sci_math_tech', 'prop_social_sci', 'prop_trades_personal_svce']
         # filter out na
-        df_no_SAT = df.dropna(subset = cols,axis=0)
+        df_no_SAT = df.dropna(subset=cols, axis=0)
         df_no_SAT_modeling = df_no_SAT[cols]
         
         # prediction on raw
         km.fit(df_no_SAT_modeling)
-        prediction=km.predict(df_no_SAT_modeling)
+        prediction = km.predict(df_no_SAT_modeling)
         df_no_SAT = df_no_SAT.assign(predicted_cluster=prediction)
         
         # predict the new observation
@@ -181,7 +181,7 @@ def major_pref_transformation(input_array):
     weight_2 = 1/3
     weight_3 = 1/6
 
-    for index in range(0,len(input_array)):
+    for index in range(0, len(input_array)):
         if input_array[index] == 1:
             output_array.append(weight_1)
         elif input_array[index] == 2:
@@ -201,19 +201,19 @@ def main():
     path = ('../data/data_2013.csv')
     df = read(path)
     
-    region_pref = [1,2,3,4,5,6,7,8,9]
-    pred_degree = [1,2,3]
-    size_range = [1,100000]# school size
-    school_type = [1,2]
-    strict_criteria = [region_pref,pred_degree,size_range,school_type] # user-input "strict" criteria
-    df_filtered = filter(df,strict_criteria)
+    region_pref = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    pred_degree = [1, 2, 3]
+    size_range = [1, 100000]# school size
+    school_type = [1, 2]
+    strict_criteria = [region_pref, pred_degree, size_range,school_type] # user-input "strict" criteria
+    df_filtered = filter(df, strict_criteria)
     
-    SAT_score = [750,750] # verbal, math
+    SAT_score = [750, 750] # verbal, math
     # SAT_score = []
-    desired_majors = [1,3,2,4,5,6,7,8] # (1/2,1/3,1/6)
+    desired_majors = [1, 3, 2, 4, 5, 6, 7, 8] # (1/2,1/3,1/6)
     clustering_info = [SAT_score, desired_majors] # user-input "clustering" info
     
-    output = modeling(df_filtered,clustering_info)
+    output = modeling(df_filtered, clustering_info)
     print (output)
 
 if __name__== "__main__":

@@ -1,8 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-
-# needed by beanstalk
+# initialize the app
 application = Flask(__name__)
 
 # config
