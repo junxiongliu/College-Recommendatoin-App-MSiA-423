@@ -84,7 +84,7 @@ def modeling(df, clustering_info):
         num_clusters = 12
     else:
         num_clusters = math.ceil(len(df.index)/5)
-    km = KMeans(n_clusters = num_clusters, random_state=666)
+    km = KMeans(n_clusters=num_clusters, random_state=666)
 
     if clustering_info[0][0] != 0 and clustering_info[0][1] != 0: # have SAT scores
         cols = ['SATVRMID', 'SATMTMID', 'prop_arts_human', 'prop_business', 'prop_health_med', 'prop_interdiscip',
@@ -114,8 +114,8 @@ def modeling(df, clustering_info):
         # append to the original and standardize
         df_SAT_modeling_appended = df_SAT_modeling.append(pd.Series(new_obs, index=df_SAT_modeling.columns, name='e'))
         new_scaled = pd.DataFrame(scaler.fit_transform(df_SAT_modeling_appended[cols]))
-        new_scaled.iloc[:, 0] = new_scaled.iloc[:, 0].apply(lambda x: x * 6) # put more weight on SAT scores
-        new_scaled.iloc[:, 1] = new_scaled.iloc[:, 1].apply(lambda x: x * 6)
+        new_scaled.iloc[:, 0] = new_scaled.iloc[:, 0].apply(lambda x: x*6) # put more weight on SAT scores
+        new_scaled.iloc[:, 1] = new_scaled.iloc[:, 1].apply(lambda x: x*6)
         
         # get the prediction
         new_obs_scaled = new_scaled.tail(1)

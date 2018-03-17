@@ -38,34 +38,29 @@ Below is a brief tutorial to set up the conda environment in a AWS EC2 or Linux.
     `wget https://repo.continuum.io/archive/Anaconda3-5.1.0-Linux-x86_64.sh
     bash Anaconda3-5.1.0-Linux-x86_64.sh`
 
-2. Clone this GitHub repository to local.
-
-3. Go into the directory, and use the `collegeapp.yml` file to create a conda environment with all required packages and dependecies.
+2. Clone this GitHub repository to local. Go into the directory, and use the `collegeapp.yml` file to create a conda environment with all required packages and dependecies.
 
     `conda env create -f collegeapp.yml`
+    Then, activate the conda environment by entering `source activate collegeapp`.
 
-Note: The conda package requirements are also listed in the `requirements.txt` file.
-
-Then, activate the conda environment by `source activate collegeapp`.
-
-4. In the same directory as `collegeapp.yml`, create a file called `config` and paste the following information into the file to configure your database.
+3. In the same directory as `collegeapp.yml`, create a file called `config` and paste the following information into the file to configure AWS RDS access.
 
     `SECRET_KEY = 'development_key'
     SQLALCHEMY_DATABASE_URI = 'postgresql://collegeconnect:collegeahead@msiawebapp.cg96n7rbldvk.us-east-1.rds.amazonaws.com:5432/msiawebappdb'
     SQLALCHEMY_TRACK_MODIFICATIONS = True`
 
-5. `app/__init__.py` should have included the line of code: 
+4. `app/__init__.py` should have included the line of code: 
 
     `application.config.from_envvar('APP_SETTINGS', silent=True)`
     
     which tells the application to look at the environmental variable `APP_SETTINGS` for the path to your config file. 
-    This means you simply need to set this environmental variable by going to command line and entering:
+    This means you simply need to set this environmental variable by entering:
     
-    `export MSIA_SETTINGS="path/to/where/your/config/file/is.config`
+    `export APP_SETTINGS="path/to/where/your/config/file/is.config`
 
-6. The database should have been initialized, so you may skip this step and go to next step. If this is not the case, please initialize a folder called `data` in the `develop` folder and store the cleaned data (from my [Google Drive](https://drive.google.com/file/d/1h84q5fhv1MEo6F0YYiqhdGLX854hRmNG/view?usp=sharing) in this new folder. Then you may use `python create_collegedb.py` to initialize the database.
+5. The database should have been initialized, so you may skip this step and go to next step. If this is not the case, please initialize a folder called `data` in `develop` and store the cleaned data ([Google Drive](https://drive.google.com/file/d/1h84q5fhv1MEo6F0YYiqhdGLX854hRmNG/view?usp=sharing)) into this new folder. Then you should use `python create_collegedb.py` to initialize the database.
 
-7. Now run the application by typing `python application.py`. The webapp should be running on `http://ec2-52-91-59-235.compute-1.amazonaws.com:5000/home`. Have fun!
+6. Now run the application by typing `python application.py`. The webapp should be running on `http://ec2-52-91-59-235.compute-1.amazonaws.com:5000/home`. Have fun!
 
 ## Logging
 There are two sets of logging performed. 
