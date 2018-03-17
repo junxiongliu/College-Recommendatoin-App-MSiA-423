@@ -22,12 +22,12 @@ The raw data is from [Kaggle](https://www.kaggle.com/jpico6/predicting-college-g
 [Link to Pivotal Tracker](https://www.pivotaltracker.com/n/projects/2144165)
 
 ## Software & Package requirements
-Below are things you need to get it started:
+Things you need to get it started:
 * [conda](https://anaconda.org/): Either Anaconda or Miniconda is fine for this project.
 * [git](https://git-scm.com/): You will most likely need version control.
 
 ## Set up the app
-Below is a brief tutorial to set up the conda environment in a AWS EC2 or Linux. For other systems, the general steps are same, but small changes might be needed. 
+Below is a brief tutorial to set up the app in a AWS EC2 or Linux. For other systems, the general steps should be the same, but small changes might be needed. 
 
 1. Update. Install git and conda if you have not done so.
 
@@ -41,6 +41,7 @@ Below is a brief tutorial to set up the conda environment in a AWS EC2 or Linux.
 2. Clone this GitHub repository to local. Go into the directory, and use the `collegeapp.yml` file to create a conda environment with all required packages and dependecies.
 
     `conda env create -f collegeapp.yml`
+
     Then, activate the conda environment by entering `source activate collegeapp`.
 
 3. In the same directory as `collegeapp.yml`, create a file called `config` and paste the following information into the file to configure AWS RDS access.
@@ -58,9 +59,9 @@ Below is a brief tutorial to set up the conda environment in a AWS EC2 or Linux.
     
     `export APP_SETTINGS="path/to/where/your/config/file/is.config`
 
-5. The database should have been initialized, so you may skip this step and go to next step. If this is not the case, please initialize a folder called `data` in `develop` and store the cleaned data ([Google Drive](https://drive.google.com/file/d/1h84q5fhv1MEo6F0YYiqhdGLX854hRmNG/view?usp=sharing)) into this new folder. Then you should use `python create_collegedb.py` to initialize the database.
+5. The database has been initialized, so you may skip this step. If this is not the case, please initialize a folder called `data` in `develop` and store the cleaned data ([Google Drive](https://drive.google.com/file/d/1h84q5fhv1MEo6F0YYiqhdGLX854hRmNG/view?usp=sharing)) into this new folder. Then, you should enter `python create_collegedb.py` to initialize the database.
 
-6. Now run the application by typing `python application.py`. The webapp should be running on `http://ec2-52-91-59-235.compute-1.amazonaws.com:5000/home`. Have fun!
+6. Now enter `python application.py`. The app should be running on `http://ec2-52-91-59-235.compute-1.amazonaws.com:5000/home`. Have fun!
 
 ## Logging
 There are two sets of logging performed. 
@@ -70,7 +71,7 @@ There are two sets of logging performed.
 2. `createdb.log` stores the logs of database initialization.
 
 ## Unit Testing
-We performed unit testing for the `develop/modeling/model.py` file. The `model.py` functions we tested are:
+We performed unit testing for `develop/modeling/model.py` file. The functions we tested are:
 * `filter()`
 * `modeling()`
 * `major_pref_transformation()`
