@@ -1,9 +1,15 @@
 Functions for the model
 ==========================================
 
+.. automodule:: application
+    :members:
+
+.. automodule:: create_collegedb
+    :members:
+
 .. automodule:: model
     :members:
 
-.. automodule:: flask_page
+.. automodule:: db_models
     :members:
 

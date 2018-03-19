@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<script type="text/javascript">
+    function selectAll() {
+        var items = document.getElementsByName('acs');
+        for (var i = 0; i < items.length; i++) {
+            if (items[i].type == 'checkbox')
+                items[i].checked = true;
+        }
+    }
+
+    function UnSelectAll() {
+        var items = document.getElementsByName('acs');
+        for (var i = 0; i < items.length; i++) {
+            if (items[i].type == 'checkbox')
+                items[i].checked = false;
+        }
+    }
+		
+</script>
+
+<style>
+	body {
+		padding-top: 10px;
+		width: 726px; 
+		margin-left: auto;
+		margin-right: auto;
+		background-color: dodgerblue;
+		padding-bottom: 10px;
+	}
+
+	.button_wrapper {
+		display:inline-block;
+		justify-content: center;
+		margin-left: 33.47%
+	}
+
+	.button {
+		width: 230px;
+		height: 40px;
+		color:white;
+		background-color: dodgerblue;
+		align-items: center;
+		justify-content: center;
+		display: flex;
+		font-weight: bold;
+	}
+	
+	.box{
+		overflow: auto;
+		width: auto; 
+		height: auto; 
+		border: ridge;
+ 	}
+
+ 	.overlay{
+ 		background-color: white;
+ 		border: ridge;
+ 		border-color: grey
+ 	}
+
+ 	table.dataframe, .dataframe th, .dataframe td {
+	  border: none;
+	  border-bottom: 1px solid #C8C8C8;
+	  border-collapse: collapse;
+	  text-align:left;
+	  padding: 10px;
+	  margin-bottom: 40px;
+	  font-size: 0.9em;
+	}	
+
+</style>
+
+</head><body><header>
+
+<body>
+	<div class="overlay">
+		<form action="/home" method="post">
+			<div>
+				<h1>Top Recommendations</h1>
+				{{data | safe}}
+
+				Note: All statistics is based on information from 2013.
+			</div>
+
+			<br>
+			
+			<div class="button_wrapper">
+					<button class="button" name="back" id="back" >Try again!</button>
+			</div>
+		</form>
+
+		<br><br>
+	</div>
+
+</header></body></html>
