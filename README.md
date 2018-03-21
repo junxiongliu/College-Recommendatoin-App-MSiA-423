@@ -1,7 +1,7 @@
 # College Recommendation Flask App
 
 ## Project Objective 
-This repo can be used to produce a U.S. college recommendation web app. The data preprocessing steps are written with `R` and the app is written with `Python 3`.
+This repo can be used to produce a U.S. college recommendation web app. The data preprocessing steps are written with `R` and the app is written with `Python 3`. The app is currently running at http://ec2-52-91-59-235.compute-1.amazonaws.com:5000/home.
 
 ## Team Members
 * Developer: Junxiong Liu
@@ -11,9 +11,9 @@ This repo can be used to produce a U.S. college recommendation web app. The data
 ## Project Charter
 Create a web app to help high school students and parents make well-informed decisions in the college application process based on their preference (e.g. location, school size) and background (e.g. SAT).
 
-* Vision: Help high school students and parents make well-informed decisions in the college application process
-* Mission: Create an interactive web app that is based on college information data to help applicants and their family better decide which colleges to apply for and to attend
-* Success Criteria: Track new user engagement and interaction of the web app throughout the time
+* Vision: Help high school students and parents make well-informed decisions in the college application process.
+* Mission: Create an interactive web app that is based on college information data to help applicants and their family better decide which colleges to apply for and to attend.
+* Success Criteria: Track new user engagement and interaction of the web app throughout the time.
 
 ## Data
 The raw data is from [Kaggle](https://www.kaggle.com/jpico6/predicting-college-graduation/data). I used `R` to do some EDA and clean the raw data (code in `develop/data_cleaning/data_cleaning.Rmd`). Alternatively, you can download the cleaned data from my [Google Drive](https://drive.google.com/file/d/1h84q5fhv1MEo6F0YYiqhdGLX854hRmNG/view?usp=sharing). 
@@ -50,7 +50,7 @@ Below is a brief tutorial to set up the app in a AWS EC2 or Linux. For other sys
     SQLALCHEMY_DATABASE_URI = 'postgresql://collegeconnect:collegeahead@msiawebapp.cg96n7rbldvk.us-east-1.rds.amazonaws.com:5432/msiawebappdb'
     SQLALCHEMY_TRACK_MODIFICATIONS = True`
 
-4. `app/__init__.py` should have included the line of code: 
+4. `app/__init__.py` should have included the following line of code: 
 
     `application.config.from_envvar('APP_SETTINGS', silent=True)`
     
@@ -61,7 +61,7 @@ Below is a brief tutorial to set up the app in a AWS EC2 or Linux. For other sys
 
 5. The database has been initialized, so you may skip this step. If this is not the case, please initialize a folder called `data` in `develop` and store the cleaned data ([Google Drive](https://drive.google.com/file/d/1h84q5fhv1MEo6F0YYiqhdGLX854hRmNG/view?usp=sharing)) into this new folder. Then, you should enter `python create_collegedb.py` to initialize the database.
 
-6. Now enter `python application.py`. The app should be running on `http://ec2-52-91-59-235.compute-1.amazonaws.com:5000/home`. Have fun!
+6. Now enter `python application.py`. The app should be running on `your EC2 public DNS` + `:5000/home`. Have fun!
 
 ## Logging
 There are two sets of logging performed. 
